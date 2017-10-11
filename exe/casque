@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require "casque"
+
+unless ARGV.size.between?(1, 2)
+  puts <<-USAGE
+    Usage:
+    casque CASK # List cask versions
+    casque CASK VERSION # Install cask with specific version
+  USAGE
+  exit false
+end
+
+cask = ARGV[0]
+version = ARGV[1]
+
+if version.nil?
+  Casque.list(cask) do |formula|
+    puts formula
+  end
+else
+  Casque.install(cask, version)
+end
